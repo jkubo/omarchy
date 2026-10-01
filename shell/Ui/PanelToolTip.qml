@@ -28,9 +28,8 @@ ToolTip {
 
   // A tooltip is a glance, and an unbounded one stops being readable well
   // before it stops growing. `text` was laid out on a single line at whatever
-  // width it asked for, so a long string ran off the edge of the screen — and a
-  // bar widget anchored to the right has nowhere to run to, so the overflow
-  // lands off-display where it cannot be read at all.
+  // width it asked for, so a long string grew past the panel it belongs to.
+  // Bar widget tooltips are drawn by Bar.qml, not here.
   //
   // Capping the control rather than the Text is what makes this safe: the
   // control's implicitWidth still derives from the unwrapped text, so
@@ -41,6 +40,8 @@ ToolTip {
   delay: 400
   padding: 0
   width: Math.min(implicitWidth, maximumWidth)
+  // The style centres on implicitWidth, which stays unwrapped; centre on the capped width.
+  x: parent ? Math.round((parent.width - width) / 2) : 0
 
   background: BorderSurface {
     color: root.panelBackground
